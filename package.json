@@ -1,0 +1,36 @@
+{
+  "name": "workout-app",
+  "version": "2.0.0",
+  "description": "A simple containerized MERN stack workout application.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/louiswhisenant/workout-app.git"
+  },
+  "author": "Louis Whisenant",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/louiswhisenant/workout-app/issues"
+  },
+  "homepage": "https://github.com/louiswhisenant/workout-app#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1"
+  }
+}
