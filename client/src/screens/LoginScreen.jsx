@@ -10,7 +10,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 
 const Login = () => {
-	const [email, setEmail] = useState('');
+	const [account, setAccount] = useState('');
 	const [password, setPassword] = useState('');
 
 	const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const Login = () => {
 	const submitHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const res = await login({ email, password }).unwrap();
+			const res = await login({ account, password }).unwrap();
 			dispatch(setCredentials({ ...res }));
 			navigate(redirect);
 		} catch (error) {
@@ -46,14 +46,14 @@ const Login = () => {
 			<h1>Sign In</h1>
 
 			<Form onSubmit={submitHandler}>
-				<Form.Group controlId='email' className='my-3'>
-					<Form.Label>Email Address</Form.Label>
+				<Form.Group controlId='account' className='my-3'>
+					<Form.Label>Email or Username</Form.Label>
 					<Form.Control
-						type='email'
-						placeholder='Enter email'
-						value={email}
+						type='account'
+						placeholder='Enter email/username'
+						value={account}
 						onChange={(e) => {
-							setEmail(e.target.value);
+							setAccount(e.target.value);
 						}}></Form.Control>
 				</Form.Group>
 

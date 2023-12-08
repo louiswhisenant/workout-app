@@ -6,9 +6,11 @@ import generateToken from '../utils/generateToken.js';
 // @route POST api/users/login
 // @access Public
 const loginUser = asyncHandler(async (req, res) => {
-	const { email, password } = req.body;
+	const { account, password } = req.body;
 
-	const user = await User.findOne({ email });
+	const user = await User.findOne({
+		$or: [{ email: account }, { username: account }],
+	});
 
 	if (user && (await user.matchPassword(password))) {
 		generateToken(res, user._id);
@@ -29,16 +31,21 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route POST api/users/register
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
-	const { name, email, password } = req.body;
+	const { username, name, email, password } = req.body;
 
-	const userExists = await User.findOne({ email });
+	const emailExists = await User.findOne({ email });
+	const usernameExists = await User.findOne({ username });
 
-	if (userExists) {
+	if (emailExists) {
 		res.status(400);
-		throw new Error('User taken.');
+		throw new Error('Email taken.');
+	} else if (usernameExists) {
+		res.status(400);
+		throw new Error('Username taken.');
 	}
 
 	const user = await User.create({
+		username,
 		name,
 		email,
 		password,
@@ -49,6 +56,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 		res.status(201).json({
 			_id: user._id,
+			username: user.username,
 			name: user.name,
 			email: user.email,
 			isAdmin: user.isAdmin,

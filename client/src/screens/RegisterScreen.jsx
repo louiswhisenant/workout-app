@@ -11,6 +11,7 @@ import FormContainer from '../components/FormContainer';
 
 const RegisterScreen = () => {
 	const [name, setName] = useState('');
+	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -39,7 +40,12 @@ const RegisterScreen = () => {
 			toast.error('Passwords must match.');
 		} else {
 			try {
-				const res = await register({ name, email, password }).unwrap();
+				const res = await register({
+					name,
+					username,
+					email,
+					password,
+				}).unwrap();
 				dispatch(setCredentials({ ...res }));
 				navigate(redirect);
 			} catch (error) {
@@ -61,6 +67,17 @@ const RegisterScreen = () => {
 						value={name}
 						onChange={(e) => {
 							setName(e.target.value);
+						}}></Form.Control>
+				</Form.Group>
+
+				<Form.Group controlId='username' className='my-3'>
+					<Form.Label>Username</Form.Label>
+					<Form.Control
+						type='username'
+						placeholder='Enter username'
+						value={username}
+						onChange={(e) => {
+							setUsername(e.target.value);
 						}}></Form.Control>
 				</Form.Group>
 
