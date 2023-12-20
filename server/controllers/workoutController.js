@@ -1,25 +1,41 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import Workout from '../models/workoutModel.js';
 
-// @desc Create order
+// @desc Create workout
 // @route POST /api/workouts
 // @access Private
 const createWorkout = asyncHandler(async (req, res) => {
-	const {
-		// create workout using Workout model here.
-	} = req.body;
+	const { relatives } = req.body;
 
 	const workout = new Workout({
-		exercises: exercises.map((item) => ({
-			...item,
-			product: item._id,
-			_id: undefined,
-		})),
+		// exercises: exercises.map((item) => ({
+		// 	...item,
+		// 	exercise: item._id,
+		// 	_id: undefined,
+		// })),
 		user: req.user._id,
-		email: req.user.email,
+		relatives,
 	});
 
 	const newWorkout = await workout.save();
+
+	res.status(201).json(newWorkout);
+});
+
+// @desc Create workout
+// @route POST /api/workouts/series
+// @access Private
+const createWorkoutSeries = asyncHandler(async (req, res) => {
+	const series = req.body;
+
+	const payload = series.map((item) => {
+		const a = new Workout({
+			...item,
+			user: req.user._id,
+		});
+	});
+
+	const newWorkoutSeries = await Workout.insertMany(series);
 
 	res.status(201).json(newWorkout);
 });
@@ -29,6 +45,23 @@ const createWorkout = asyncHandler(async (req, res) => {
 // @access Private
 const getUserWorkouts = asyncHandler(async (req, res) => {
 	console.log('get user workouts');
+});
+
+// @desc Get current workout
+// @route GET /api/workouts/current
+// @access Private
+const getCurrentWorkout = asyncHandler(async (req, res) => {
+	const workout = await Workout.findOne({
+		user: req.user._id,
+		isCurrent: true,
+	});
+
+	if (workout) {
+		return res.json(workout);
+	} else {
+		res.status(404);
+		throw new Error('No current workout found for user.');
+	}
 });
 
 // @desc Get workout by ID
@@ -41,11 +74,17 @@ const getWorkoutById = asyncHandler(async (req, res) => {
 // @desc Update workout
 // @route PUT /api/workouts/:id
 // @access Private
-const updateWorkout = asyncHandler(async (req, res) => {
+const updateWorkoutById = asyncHandler(async (req, res) => {
 	const workout = await Workout.findById(req.params.id);
 
 	if (workout) {
-		// Update workout logic here.
+		Object.keys(req.body).forEach((key) => {
+			if (workout.hasOwnProperty(key) && req.body[key] !== workout[key]) {
+				workout[key] = req.body[key];
+			} else if (!workout.hasOwnProperty[key]) {
+				workout[key] = req.body[key];
+			}
+		});
 
 		const updatedWorkout = await workout.save();
 
@@ -69,8 +108,10 @@ const deleteWorkoutById = asyncHandler(async (req, res) => {
 
 export {
 	createWorkout,
+	createWorkoutSeries,
 	getUserWorkouts,
+	getCurrentWorkout,
 	getWorkoutById,
-	updateWorkout,
+	updateWorkoutById,
 	deleteWorkoutById,
 };

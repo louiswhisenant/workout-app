@@ -1,0 +1,34 @@
+version: '3'
+services:
+    client-app:
+        image: client-app
+        build: ./client/
+        stdin_open: true
+        ports:
+            - '3000:3000'
+        networks:
+            - application
+    api-server:
+        image: api-server
+        build: ./server/
+        ports:
+            - '5000:5000'
+        networks:
+            - application
+        depends_on:
+            - mongo
+    mongo:
+        image: mongo:latest
+        ports:
+            - '27017:27017'
+        networks:
+            - application
+        volumes:
+            - mongo-data:/data/db
+networks:
+    application:
+        driver: bridge
+volumes:
+    mongo-data:
+        driver: local
+# https://youtu.be/DftsReyhz2Q?list=PLK7qH1uORhefOSf-9cgioWg7kcqGTXFma&t=1329

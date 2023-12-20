@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const workoutSchema = mongoose.Schema(
+const macrocycleSchema = mongoose.Schema(
 	{
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -14,18 +14,24 @@ const workoutSchema = mongoose.Schema(
 					ref: 'Exercise',
 				},
 			],
-			microcycle: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Microcycle',
-			},
-			mesocycle: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Mesocycle',
-			},
-			macrocycle: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Macrocycle',
-			},
+			workouts: [
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'Exercise',
+				},
+			],
+			microcycles: [
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'Exercise',
+				},
+			],
+			mesocycles: [
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'Exercise',
+				},
+			],
 		},
 		startTime: {
 			type: Date,
@@ -33,20 +39,14 @@ const workoutSchema = mongoose.Schema(
 		endTime: {
 			type: Date,
 		},
-		isStarted: {
-			type: Boolean,
-			required: true,
-			default: false,
-		},
 		isCompleted: {
 			type: Boolean,
 			required: true,
 			default: false,
 		},
-		// There should only be one workout index set to "isCurrent: true" PER user.
 		isCurrent: {
 			type: Boolean,
-			// required: true,
+			required: true,
 			default: false,
 			validate: {
 				validator: async () => {
@@ -58,7 +58,7 @@ const workoutSchema = mongoose.Schema(
 						return Boolean(!doc);
 					}
 				},
-				message: (props) => 'Current workout already exists.',
+				message: (props) => 'Current macrocycle already exists.',
 			},
 		},
 	},
@@ -67,6 +67,6 @@ const workoutSchema = mongoose.Schema(
 	}
 );
 
-const Workout = mongoose.model('Workout', workoutSchema);
+const Macrocycle = mongoose.model('Macrocycle', macrocycleSchema);
 
-export default Workout;
+export default Macrocycle;

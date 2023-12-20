@@ -22,6 +22,10 @@ import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
 
 import reportWebVitals from './reportWebVitals';
+import MicrocycleScreen from './screens/MicrocycleScreen';
+import MesocycleScreen from './screens/MesocycleScreen';
+import MacrocycleScreen from './screens/MacrocycleScreen';
+import SessionScreen from './screens/SessionScreen';
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -31,6 +35,11 @@ const router = createBrowserRouter(
 
 			<Route path='' element={<PrivateRoute />}>
 				<Route index={true} path='/' element={<HomeScreen />} />
+
+				<Route path='/microcycles/:id' element={<MicrocycleScreen />} />
+				<Route path='/mesocycles/:id' element={<MesocycleScreen />} />
+				<Route path='/macrocycle' element={<MacrocycleScreen />} />
+				<Route path='/workouts/:id' element={<SessionScreen />} />
 				{/* <Route path='/profile' element={<ProfileScreen />} /> */}
 			</Route>
 		</Route>
