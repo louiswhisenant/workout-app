@@ -24,14 +24,13 @@ const getUserMacrocycles = asyncHandler(async (req, res) => {
 	console.log('get user macrocycles');
 });
 
-// @desc Get current macrocycle
-// @route GET /api/macrocycles/current
+// @desc Get macrocycle by ID
+// @route GET /api/macrocycles/:id
 // @access Private
-const getCurrentMacrocycle = asyncHandler(async (req, res) => {
-	const macrocycle = await Macrocycle.findOne({
-		user: req.user._id,
-		isCurrent: true,
-	});
+const getMacrocycleById = asyncHandler(async (req, res) => {
+	const id = req.body;
+
+	const macrocycle = await Macrocycle.findById(id);
 
 	if (macrocycle) {
 		return res.json(macrocycle);
@@ -39,13 +38,6 @@ const getCurrentMacrocycle = asyncHandler(async (req, res) => {
 		res.status(404);
 		throw new Error('No current macrocycle found for user.');
 	}
-});
-
-// @desc Get macrocycle by ID
-// @route GET /api/macrocycles/:id
-// @access Private
-const getMacrocycleById = asyncHandler(async (req, res) => {
-	console.log('get macrocycle by ID');
 });
 
 // @desc Update macrocycle
@@ -89,7 +81,6 @@ const deleteMacrocycleById = asyncHandler(async (req, res) => {
 export {
 	createMacrocycle,
 	getUserMacrocycles,
-	getCurrentMacrocycle,
 	getMacrocycleById,
 	updateMacrocycleById,
 	deleteMacrocycleById,

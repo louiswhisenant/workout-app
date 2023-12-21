@@ -2,6 +2,7 @@
 //     process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '';
 export const BASE_URL = '';
 export const USERS_URL = '/api/users';
+export const PROFILES_URL = '/api/profiles';
 export const EXERCISES_URL = '/api/exercises';
 export const WORKOUTS_URL = '/api/workouts';
 export const MICROCYCLES_URL = '/api/microcycles';

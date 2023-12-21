@@ -2,9 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { useLogoutMutation } from '../slices/usersApiSlice';
-import { removeCredentials } from '../slices/authSlice';
-import { useGetCurrentMacrocycleQuery } from '../slices/macrocyclesApiSlice';
+import { useGetUserProfileQuery } from '../slices/api/profilesApiSlice';
 
 import { toast } from 'react-toastify';
 
@@ -15,29 +13,33 @@ import Loader from '../components/Loader';
 
 const HomeScreen = () => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	const {
-		data: macrocycle,
-		macrocycleLoading,
-		macrocycleError,
-	} = useGetCurrentMacrocycleQuery();
+		data: profile,
+		profileLoading,
+		profileError,
+	} = useGetUserProfileQuery();
 
-	useEffect(() => {
-		if (macrocycle && !macrocycleLoading) {
-		}
-	}, [macrocycle, macrocycleLoading]);
+	// useEffect(() => {
+	// 	if (macrocycle && !macrocycleLoading) {
+	// 		// const {
+	// 		// 	data: mesocycles,
+	// 		// 	mesocyclesLoading,
+	// 		// 	mesocyclesError,
+	// 		// } = useGetMesoCyclesByMacrocycleQuery(":id");
+	// 	}
+	// }, [macrocycle, macrocycleLoading]);
 
 	// example redux query implementation:
 	// const { data: products, isLoading, error } = useGetProductsQuery();
 
-	return macrocycleLoading ? (
+	return profileLoading ? (
 		<Container>
 			<Loader />
 		</Container>
-	) : macrocycle && !macrocycleLoading ? (
+	) : profile && !profileLoading ? (
 		<Container>
-			<div>Data found!</div>
+			<div>Profile loaded!</div>
 		</Container>
 	) : (
 		<Container>

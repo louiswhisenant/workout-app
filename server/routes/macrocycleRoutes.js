@@ -2,7 +2,6 @@ import express from 'express';
 import {
 	createMacrocycle,
 	getUserMacrocycles,
-	getCurrentMacrocycle,
 	getMacrocycleById,
 	updateMacrocycleById,
 	deleteMacrocycleById,
@@ -13,7 +12,6 @@ const router = express.Router();
 
 router.route('/').post(protect, createMacrocycle);
 router.route('/user').get(protect, getUserMacrocycles);
-router.route('/current').get(protect, getCurrentMacrocycle);
 router
 	.route('/:id')
 	.get(protect, getMacrocycleById)

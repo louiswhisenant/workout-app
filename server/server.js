@@ -4,9 +4,10 @@ dotenv.config();
 import connectDB from './config/db.js';
 import cookieParser from 'cookie-parser';
 
+import userRoutes from './routes/userRoutes.js';
+import profileRoutes from './routes/profileRoutes.js';
 import exerciseRoutes from './routes/exerciseRoutes.js';
 import exerciseTemplateRoutes from './routes/exerciseTemplateRoutes.js';
-import userRoutes from './routes/userRoutes.js';
 import workoutRoutes from './routes/workoutRoutes.js';
 import microcycleRoutes from './routes/microcycleRoutes.js';
 import mesocycleRoutes from './routes/mesocycleRoutes.js';
@@ -29,9 +30,10 @@ app.get('/', (req, res) => {
 	res.send('API is running...');
 });
 
+app.use('/api/users', userRoutes);
+app.use('/api/profiles', profileRoutes);
 app.use('/api/exercises', exerciseRoutes);
 app.use('/api/exercise-templates', exerciseTemplateRoutes);
-app.use('/api/users', userRoutes);
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/microcycles', microcycleRoutes);
 app.use('/api/mesocycles', mesocycleRoutes);

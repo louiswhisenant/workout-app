@@ -1,5 +1,5 @@
-import { EXERCISES_URL } from '../constants';
-import { apiSlice } from './apiSlice';
+import { EXERCISES_URL } from '../../constants';
+import { apiSlice } from '../apiSlice';
 
 const exercisesApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({

@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { useLogoutMutation } from '../slices/usersApiSlice';
-import { removeCredentials } from '../slices/authSlice';
+import { useLogoutMutation } from '../slices/api/usersApiSlice';
+import { removeCredentials } from '../slices/state/authSlice';
 
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FaUser } from 'react-icons/fa';

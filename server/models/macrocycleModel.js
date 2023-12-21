@@ -44,23 +44,23 @@ const macrocycleSchema = mongoose.Schema(
 			required: true,
 			default: false,
 		},
-		isCurrent: {
-			type: Boolean,
-			required: true,
-			default: false,
-			validate: {
-				validator: async () => {
-					if (this.isCurrent === true) {
-						const doc = await this.constructor.findOne({
-							user: this.user,
-							isCurrent: true,
-						});
-						return Boolean(!doc);
-					}
-				},
-				message: (props) => 'Current macrocycle already exists.',
-			},
-		},
+		// isCurrent: {
+		// 	type: Boolean,
+		// 	// required: true,
+		// 	default: false,
+		// 	validate: {
+		// 		validator: async () => {
+		// 			if (this.isCurrent === true) {
+		// 				const doc = await this.constructor.findOne({
+		// 					user: this.user,
+		// 					isCurrent: true,
+		// 				});
+		// 				return Boolean(!doc);
+		// 			}
+		// 		},
+		// 		message: (props) => 'Current macrocycle already exists.',
+		// 	},
+		// },
 	},
 	{
 		timestamps: true,
