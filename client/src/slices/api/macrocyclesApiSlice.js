@@ -18,5 +18,5 @@ const macrocyclesApiSlice = apiSlice.injectEndpoints({
 	}),
 });
 
-export const { useGetMacrocyclesQuery, useGetMacrocycleByIdQuery } =
+export const { useGetMacrocyclesQuery, useLazyGetMacrocycleByIdQuery } =
 	macrocyclesApiSlice;

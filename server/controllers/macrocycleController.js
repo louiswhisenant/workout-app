@@ -28,9 +28,7 @@ const getUserMacrocycles = asyncHandler(async (req, res) => {
 // @route GET /api/macrocycles/:id
 // @access Private
 const getMacrocycleById = asyncHandler(async (req, res) => {
-	const id = req.body;
-
-	const macrocycle = await Macrocycle.findById(id);
+	const macrocycle = await Macrocycle.findById(req.params.id);
 
 	if (macrocycle) {
 		return res.json(macrocycle);

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useLogoutMutation } from '../slices/api/usersApiSlice';
 import { removeCredentials } from '../slices/state/authSlice';
+import { clearAppData } from '../slices/state/appDataSlice';
 
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FaUser } from 'react-icons/fa';
@@ -20,6 +21,7 @@ const Header = () => {
 		try {
 			await logout().unwrap();
 			dispatch(removeCredentials());
+			dispatch(clearAppData());
 			navigate('login');
 		} catch (error) {
 			console.log(error);
@@ -31,7 +33,7 @@ const Header = () => {
 			<Navbar bg='dark' variant='dark' expand='md' collapseOnSelect>
 				<Container>
 					<LinkContainer to='/'>
-						<Navbar.Brand>Proshop</Navbar.Brand>
+						<Navbar.Brand>Workout App</Navbar.Brand>
 					</LinkContainer>
 
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />

@@ -12,6 +12,7 @@ export const apiSlice = createApi({
 		'Mesocycle',
 		'Macrocycle',
 		'User',
+		'Profile',
 	],
 	endpoints: (builder) => ({}),
 });

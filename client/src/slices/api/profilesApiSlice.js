@@ -20,5 +20,5 @@ const exercisesApiSlice = apiSlice.injectEndpoints({
 	}),
 });
 
-export const { useCreateUserProfileMutation, useGetUserProfileQuery } =
+export const { useCreateUserProfileMutation, useLazyGetUserProfileQuery } =
 	exercisesApiSlice;

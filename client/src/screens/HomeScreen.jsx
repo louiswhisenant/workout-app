@@ -1,49 +1,59 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { useGetUserProfileQuery } from '../slices/api/profilesApiSlice';
+// import { useGetUserProfileQuery } from '../slices/api/profilesApiSlice';
+// import { setProfile } from '../slices/state/profileSlice';
+
+import { useLazyGetMacrocycleByIdQuery } from '../slices/api/macrocyclesApiSlice';
 
 import { toast } from 'react-toastify';
 
 import { Container, Button } from 'react-bootstrap';
 
 import Loader from '../components/Loader';
+import { setMacrocycle } from '../slices/state/appDataSlice';
 // import Message from '../components/Message';
 
 const HomeScreen = () => {
 	const dispatch = useDispatch();
+	const { profile } = useSelector((state) => state.appData);
 
-	const {
-		data: profile,
-		profileLoading,
-		profileError,
-	} = useGetUserProfileQuery();
+	const [
+		getCurrentMacrocycle,
+		{ data: macroData, isFetching: macroFetching, isLoading: macroLoading },
+	] = useLazyGetMacrocycleByIdQuery();
 
-	// useEffect(() => {
-	// 	if (macrocycle && !macrocycleLoading) {
-	// 		// const {
-	// 		// 	data: mesocycles,
-	// 		// 	mesocyclesLoading,
-	// 		// 	mesocyclesError,
-	// 		// } = useGetMesoCyclesByMacrocycleQuery(":id");
-	// 	}
-	// }, [macrocycle, macrocycleLoading]);
+	const isLoading =
+		(!macroData || macroLoading || macroFetching || !profile) && true;
 
-	// example redux query implementation:
-	// const { data: products, isLoading, error } = useGetProductsQuery();
+	useEffect(() => {
+		const loadAppData = async () => {
+			const res = await getCurrentMacrocycle(
+				profile.current.macrocycle
+			).unwrap();
+			dispatch(setMacrocycle(res));
+		};
 
-	return profileLoading ? (
+		if (profile && profile.current.macrocycle) {
+			loadAppData();
+		}
+	}, [profile, getCurrentMacrocycle, dispatch]);
+
+	return isLoading ? (
 		<Container>
 			<Loader />
 		</Container>
-	) : profile && !profileLoading ? (
-		<Container>
-			<div>Profile loaded!</div>
-		</Container>
 	) : (
 		<Container>
-			<div>No data found.</div>
+			<div>
+				<h1>Profile ID:</h1>
+				<p>{profile._id}</p>
+			</div>
+			<div>
+				<h1>Macrocycle ID:</h1>
+				<p>{macroData._id}</p>
+			</div>
 		</Container>
 	);
 };

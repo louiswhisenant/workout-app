@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { useLoginMutation } from '../slices/api/usersApiSlice';
 import { setCredentials } from '../slices/state/authSlice';
+
+import { useLazyGetUserProfileQuery } from '../slices/api/profilesApiSlice';
+import { setProfile } from '../slices/state/appDataSlice';
 
 import Loader from '../components/Loader';
 import { toast } from 'react-toastify';
@@ -17,8 +21,19 @@ const Login = () => {
 	const navigate = useNavigate();
 
 	const [login, { isLoading }] = useLoginMutation();
+	const [getProfile] = useLazyGetUserProfileQuery();
+
+	const attemptLogin = async () => {
+		const res = await login({ account, password }).unwrap();
+		dispatch(setCredentials({ ...res }));
+
+		const profileRes = await getProfile().unwrap();
+		dispatch(setProfile({ ...profileRes }));
+		console.log(profileRes);
+	};
 
 	const { userInfo } = useSelector((state) => state.auth);
+	const { profile } = useSelector((state) => state.appData);
 
 	const { search } = useLocation();
 	const sp = new URLSearchParams(search);
@@ -28,13 +43,13 @@ const Login = () => {
 		if (userInfo) {
 			navigate(redirect);
 		}
-	}, [userInfo, redirect, navigate]);
+	}, [userInfo, profile, redirect, navigate]);
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const res = await login({ account, password }).unwrap();
-			dispatch(setCredentials({ ...res }));
+			await attemptLogin();
+
 			navigate(redirect);
 		} catch (error) {
 			toast.error(error?.data?.message || error.error);
