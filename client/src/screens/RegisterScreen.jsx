@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { useRegisterMutation } from '../slices/api/usersApiSlice';
 import { setCredentials } from '../slices/state/authSlice';
+
+import { useCreateUserProfileMutation } from '../slices/api/profilesApiSlice';
+import { setProfile } from '../slices/state/appDataSlice';
 
 import Loader from '../components/Loader';
 import { toast } from 'react-toastify';
@@ -19,7 +23,23 @@ const RegisterScreen = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const [register, { isLoading }] = useRegisterMutation();
+	const [register, { isLoading: registerLoading }] = useRegisterMutation();
+	const [createProfile, { isLoading: profileLoading }] =
+		useCreateUserProfileMutation();
+
+	const attemptRegister = async () => {
+		const res = await register({
+			username,
+			email,
+			password,
+		}).unwrap();
+		dispatch(setCredentials({ ...res }));
+
+		const profileRes = await createProfile({
+			name,
+		}).unwrap();
+		dispatch(setProfile({ ...profileRes }));
+	};
 
 	const { userInfo } = useSelector((state) => state.auth);
 
@@ -40,13 +60,8 @@ const RegisterScreen = () => {
 			toast.error('Passwords must match.');
 		} else {
 			try {
-				const res = await register({
-					name,
-					username,
-					email,
-					password,
-				}).unwrap();
-				dispatch(setCredentials({ ...res }));
+				await attemptRegister();
+
 				navigate(redirect);
 			} catch (error) {
 				toast.error(error?.data?.message || error.error);
@@ -118,11 +133,11 @@ const RegisterScreen = () => {
 					className='mt-2'
 					type='submit'
 					variant='primary'
-					disabled={isLoading}>
+					disabled={registerLoading}>
 					Register
 				</Button>
 
-				{isLoading && <Loader />}
+				{(registerLoading || profileLoading) && <Loader />}
 			</Form>
 
 			<Row className='py-3'>

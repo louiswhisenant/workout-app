@@ -29,11 +29,9 @@ const Login = () => {
 
 		const profileRes = await getProfile().unwrap();
 		dispatch(setProfile({ ...profileRes }));
-		console.log(profileRes);
 	};
 
 	const { userInfo } = useSelector((state) => state.auth);
-	const { profile } = useSelector((state) => state.appData);
 
 	const { search } = useLocation();
 	const sp = new URLSearchParams(search);
@@ -43,7 +41,7 @@ const Login = () => {
 		if (userInfo) {
 			navigate(redirect);
 		}
-	}, [userInfo, profile, redirect, navigate]);
+	}, [userInfo, redirect, navigate]);
 
 	const submitHandler = async (e) => {
 		e.preventDefault();

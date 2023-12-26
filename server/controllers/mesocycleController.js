@@ -71,6 +71,22 @@ const getMesocycleById = asyncHandler(async (req, res) => {
 	console.log('get mesocycle by ID');
 });
 
+// @desc Get Mesocycles by Macrocycle ID
+// @route GET /api/mesocycles/macrocycle/:id
+// @access Public
+const getMesocycleByMacrocycle = asyncHandler(async (req, res) => {
+	const mesocycles = await Mesocycle.find({
+		'relatives.macrocycle': req.params.id,
+	});
+
+	if (mesocycles) {
+		return res.json(mesocycles);
+	} else {
+		res.status(404);
+		throw new Error('No mesocycles found.');
+	}
+});
+
 // @desc Update mesocycle
 // @route PUT /api/mesocycles/:id
 // @access Private
@@ -115,6 +131,7 @@ export {
 	getUserMesocycles,
 	getCurrentMesocycle,
 	getMesocycleById,
+	getMesocycleByMacrocycle,
 	updateMesocycleById,
 	deleteMesocycleById,
 };

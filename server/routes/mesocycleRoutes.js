@@ -5,6 +5,7 @@ import {
 	getUserMesocycles,
 	getCurrentMesocycle,
 	getMesocycleById,
+	getMesocycleByMacrocycle,
 	updateMesocycleById,
 	deleteMesocycleById,
 } from '../controllers/mesocycleController.js';
@@ -16,6 +17,7 @@ router.route('/').post(protect, createMesocycle);
 router.route('/series').post(protect, createMesocycleSeries);
 router.route('/user').get(protect, getUserMesocycles);
 router.route('/current').get(protect, getCurrentMesocycle);
+router.route('/macrocycle/:id').get(protect, getMesocycleByMacrocycle);
 router
 	.route('/:id')
 	.get(protect, getMesocycleById)

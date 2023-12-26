@@ -5,6 +5,7 @@ const initialState = {
 		? JSON.parse(localStorage.getItem('profile'))
 		: null,
 	macrocycle: null,
+	mesocycles: null,
 };
 
 export const appDataSlice = createSlice({
@@ -18,14 +19,19 @@ export const appDataSlice = createSlice({
 		setMacrocycle: (state, action) => {
 			state.macrocycle = action.payload;
 		},
+		setMesocycles: (state, action) => {
+			state.mesocycles = action.payload;
+		},
 		clearAppData: (state, action) => {
 			state.profile = null;
 			state.macrocycle = null;
+			state.mesocycles = null;
 			localStorage.removeItem('profile');
 		},
 	},
 });
 
-export const { setProfile, setMacrocycle, clearAppData } = appDataSlice.actions;
+export const { setProfile, setMacrocycle, setMesocycles, clearAppData } =
+	appDataSlice.actions;
 
 export default appDataSlice.reducer;

@@ -11,6 +11,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 const Header = () => {
 	const { userInfo } = useSelector((state) => state.auth);
+	const { profile } = useSelector((state) => state.appData);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -40,9 +41,11 @@ const Header = () => {
 
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className='ms-auto'>
-							{userInfo ? (
+							{userInfo && profile ? (
 								<NavDropdown
-									title={userInfo.name}
+									title={
+										profile.name ? profile.name : 'Profile'
+									}
 									id='username'
 									drop='down-centered'>
 									<LinkContainer to='/profile'>
