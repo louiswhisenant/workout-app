@@ -7,6 +7,7 @@ import {
 	getMicrocycleById,
 	updateMicrocycleById,
 	deleteMicrocycleById,
+	getMicrocycleByMacrocycle,
 } from '../controllers/microcycleController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -21,5 +22,6 @@ router
 	.get(protect, getMicrocycleById)
 	.put(protect, updateMicrocycleById)
 	.delete(protect, deleteMicrocycleById);
+router.route('/macrocycle/:id').get(protect, getMicrocycleByMacrocycle);
 
 export default router;

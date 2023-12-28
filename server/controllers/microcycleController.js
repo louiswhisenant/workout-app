@@ -71,6 +71,22 @@ const getMicrocycleById = asyncHandler(async (req, res) => {
 	console.log('get microcycle by ID');
 });
 
+// @desc Get Microcycles by Macrocycle ID
+// @route GET /api/microcycles/macrocycle/:id
+// @access Public
+const getMicrocycleByMacrocycle = asyncHandler(async (req, res) => {
+	const microcycles = await Microcycle.find({
+		'relatives.macrocycle': req.params.id,
+	});
+
+	if (microcycles) {
+		return res.json(microcycles);
+	} else {
+		res.status(404);
+		throw new Error('No microcycles found.');
+	}
+});
+
 // @desc Update microcycle
 // @route PUT /api/microcycles/:id
 // @access Private
@@ -115,6 +131,7 @@ export {
 	getUserMicrocycles,
 	getCurrentMicrocycle,
 	getMicrocycleById,
+	getMicrocycleByMacrocycle,
 	updateMicrocycleById,
 	deleteMicrocycleById,
 };

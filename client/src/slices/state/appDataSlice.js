@@ -6,6 +6,9 @@ const initialState = {
 		: null,
 	macrocycle: null,
 	mesocycles: null,
+	microcycles: null,
+	workouts: null,
+	exercises: null,
 };
 
 export const appDataSlice = createSlice({
@@ -22,16 +25,27 @@ export const appDataSlice = createSlice({
 		setMesocycles: (state, action) => {
 			state.mesocycles = action.payload;
 		},
+		setMicrocycles: (state, action) => {
+			state.microcycles = action.payload;
+		},
 		clearAppData: (state, action) => {
 			state.profile = null;
 			state.macrocycle = null;
 			state.mesocycles = null;
+			state.microcycles = null;
+			state.workouts = null;
+			state.exercises = null;
 			localStorage.removeItem('profile');
 		},
 	},
 });
 
-export const { setProfile, setMacrocycle, setMesocycles, clearAppData } =
-	appDataSlice.actions;
+export const {
+	setProfile,
+	setMacrocycle,
+	setMesocycles,
+	setMicrocycles,
+	clearAppData,
+} = appDataSlice.actions;
 
 export default appDataSlice.reducer;
