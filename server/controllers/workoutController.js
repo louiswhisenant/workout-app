@@ -71,6 +71,22 @@ const getWorkoutById = asyncHandler(async (req, res) => {
 	console.log('get workout by ID');
 });
 
+// @desc Get Workouts by Macrocycle ID
+// @route GET /api/workouts/macrocycle/:id
+// @access Public
+const getWorkoutsByMacrocycle = asyncHandler(async (req, res) => {
+	const workouts = await Workout.find({
+		'relatives.macrocycle': req.params.id,
+	});
+
+	if (workouts) {
+		return res.json(workouts);
+	} else {
+		res.status(404);
+		throw new Error('No workouts found.');
+	}
+});
+
 // @desc Update workout
 // @route PUT /api/workouts/:id
 // @access Private
@@ -112,6 +128,7 @@ export {
 	getUserWorkouts,
 	getCurrentWorkout,
 	getWorkoutById,
+	getWorkoutsByMacrocycle,
 	updateWorkoutById,
 	deleteWorkoutById,
 };

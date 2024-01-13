@@ -4,15 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLazyGetMacrocycleByIdQuery } from '../slices/api/macrocyclesApiSlice';
 import { useLazyGetMesocycleByMacrocycleQuery } from '../slices/api/mesocyclesApiSlice';
 import { useLazyGetMicrocycleByMacrocycleQuery } from '../slices/api/microcyclesApiSlice';
-import { setMacrocycle } from '../slices/state/appDataSlice';
-import { setMesocycles } from '../slices/state/appDataSlice';
-import { setMicrocycles } from '../slices/state/appDataSlice';
+import { useLazyGetWorkoutByMacrocycleQuery } from '../slices/api/workoutsApiSlice';
+import {
+	setMacrocycle,
+	setMesocycles,
+	setMicrocycles,
+	setWorkouts,
+} from '../slices/state/appDataSlice';
 
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 import { Container, Button } from 'react-bootstrap';
 
-import ProgramCarousel from '../components/ProgramCarousel';
+import MesoCarousel from '../components/MesoCarousel';
 import Loader from '../components/Loader';
 // import Message from '../components/Message';
 
@@ -32,15 +36,31 @@ const HomeScreen = () => {
 		getMicrocycles,
 		{ data: microData, isFetching: microFetching, isLoading: microLoading },
 	] = useLazyGetMicrocycleByMacrocycleQuery();
+	const [
+		getWorkouts,
+		{
+			data: workoutData,
+			isFetching: workoutFetching,
+			isLoading: workoutLoading,
+		},
+	] = useLazyGetWorkoutByMacrocycleQuery();
 
 	// Define loading status
 	const macroWorking = (macroLoading || macroFetching) && true;
 	const mesoWorking = (mesoLoading || mesoFetching) && true;
 	const microWorking = (microLoading || microFetching) && true;
+	const workoutWorking = (workoutLoading || workoutFetching) && true;
 
 	const isWorking =
-		(macroWorking || mesoWorking || microWorking || !profile) && true;
-	const isReady = macroData && mesoData && microData && profile && true;
+		(macroWorking ||
+			mesoWorking ||
+			microWorking ||
+			workoutWorking ||
+			!profile) &&
+		true;
+
+	const isReady =
+		macroData && mesoData && microData && workoutData && profile && true;
 
 	// get macorcycle data
 	useEffect(() => {
@@ -81,6 +101,18 @@ const HomeScreen = () => {
 		}
 	}, [macroData, macroLoading, getMicrocycles, dispatch]);
 
+	// get workout data
+	useEffect(() => {
+		const loadWorkouts = async () => {
+			const workouts = await getWorkouts(macroData._id).unwrap();
+			dispatch(setWorkouts(workouts));
+		};
+
+		if (macroData && !macroLoading) {
+			loadWorkouts();
+		}
+	}, [macroData, macroLoading, getWorkouts, dispatch]);
+
 	return isWorking ? (
 		<Container>
 			<Loader />
@@ -88,7 +120,8 @@ const HomeScreen = () => {
 	) : isReady ? (
 		<Container>
 			<h1>Profile: {profile._id}</h1>
-			<ProgramCarousel />
+			<h2>Macrocycle: {macroData._id}</h2>
+			<MesoCarousel />
 		</Container>
 	) : (
 		<Container>

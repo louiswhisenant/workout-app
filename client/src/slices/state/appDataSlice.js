@@ -28,6 +28,9 @@ export const appDataSlice = createSlice({
 		setMicrocycles: (state, action) => {
 			state.microcycles = action.payload;
 		},
+		setWorkouts: (state, action) => {
+			state.workouts = action.payload;
+		},
 		clearAppData: (state, action) => {
 			state.profile = null;
 			state.macrocycle = null;
@@ -45,6 +48,7 @@ export const {
 	setMacrocycle,
 	setMesocycles,
 	setMicrocycles,
+	setWorkouts,
 	clearAppData,
 } = appDataSlice.actions;
 

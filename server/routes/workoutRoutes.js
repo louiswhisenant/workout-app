@@ -5,6 +5,7 @@ import {
 	getUserWorkouts,
 	getCurrentWorkout,
 	getWorkoutById,
+	getWorkoutsByMacrocycle,
 	updateWorkoutById,
 	deleteWorkoutById,
 } from '../controllers/workoutController.js';
@@ -16,6 +17,7 @@ router.route('/').post(protect, createWorkout);
 router.route('/series').post(protect, createWorkoutSeries);
 router.route('/user').get(protect, getUserWorkouts);
 router.route('/current').get(protect, getCurrentWorkout);
+router.route('/macrocycle/:id').get(protect, getWorkoutsByMacrocycle);
 router
 	.route('/:id')
 	.get(protect, getWorkoutById)

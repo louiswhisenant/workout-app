@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Carousel, Card, Container, Row, Col } from 'react-bootstrap';
+import MicroCarousel from './MicroCarousel';
 
-const ProgramCarousel = () => {
+const MesoCarousel = () => {
 	const [index, setIndex] = useState(0);
 	const { macrocycle } = useSelector((state) => state.appData);
 	const { mesocycles } = useSelector((state) => state.appData);
@@ -22,7 +23,7 @@ const ProgramCarousel = () => {
 		<Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
 			{mesocycles.map((meso) => (
 				<Carousel.Item key={meso._id}>
-					<Card>
+					<Card className='p-3'>
 						<div>
 							<Row>
 								<h3>
@@ -30,18 +31,7 @@ const ProgramCarousel = () => {
 									{meso._id}
 								</h3>
 							</Row>
-							{microcycles.map(
-								(micro) =>
-									micro.relatives.mesocycle === meso._id && (
-										<Row key={micro._id}>
-											<Col>
-												Microcycle{' '}
-												{micro.index.macrocycle + 1}
-											</Col>
-											<Col>{micro._id}</Col>
-										</Row>
-									)
-							)}
+							<MicroCarousel meso={meso._id} />
 						</div>
 					</Card>
 				</Carousel.Item>
@@ -50,4 +40,4 @@ const ProgramCarousel = () => {
 	);
 };
 
-export default ProgramCarousel;
+export default MesoCarousel;
