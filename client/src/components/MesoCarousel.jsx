@@ -20,10 +20,16 @@ const MesoCarousel = () => {
 	};
 
 	return (
-		<Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
+		<Carousel
+			className='meso-carousel'
+			activeIndex={index}
+			onSelect={handleSelect}
+			interval={null}>
 			{mesocycles.map((meso) => (
-				<Carousel.Item key={meso._id}>
-					<Card className='p-3'>
+				<Carousel.Item
+					key={meso._id}
+					className='p-3 px-4 bg-dark rounded'>
+					<Card className='p-3 bg-primary'>
 						<div>
 							<Row>
 								<h3>

@@ -5,7 +5,7 @@ import Workout from '../models/workoutModel.js';
 // @route POST /api/workouts
 // @access Private
 const createWorkout = asyncHandler(async (req, res) => {
-	const { relatives } = req.body;
+	const { relatives, index } = req.body;
 
 	const workout = new Workout({
 		// exercises: exercises.map((item) => ({
@@ -15,6 +15,7 @@ const createWorkout = asyncHandler(async (req, res) => {
 		// })),
 		user: req.user._id,
 		relatives,
+		index,
 	});
 
 	const newWorkout = await workout.save();

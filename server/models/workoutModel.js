@@ -27,6 +27,17 @@ const workoutSchema = mongoose.Schema(
 				ref: 'Macrocycle',
 			},
 		},
+		index: {
+			microcycle: {
+				type: Number,
+			},
+			mesocycle: {
+				type: Number,
+			},
+			macrocycle: {
+				type: Number,
+			},
+		},
 		startTime: {
 			type: Date,
 		},
@@ -48,18 +59,18 @@ const workoutSchema = mongoose.Schema(
 			type: Boolean,
 			// required: true,
 			default: false,
-			validate: {
-				validator: async () => {
-					if (this.isCurrent === true) {
-						const doc = await this.constructor.findOne({
-							user: this.user,
-							isCurrent: true,
-						});
-						return Boolean(!doc);
-					}
-				},
-				message: (props) => 'Current workout already exists.',
-			},
+			// validate: {
+			// 	validator: async () => {
+			// 		if (this.isCurrent === true) {
+			// 			const doc = await this.constructor.findOne({
+			// 				user: this.user,
+			// 				isCurrent: true,
+			// 			});
+			// 			return Boolean(!doc);
+			// 		}
+			// 	},
+			// 	message: (props) => 'Current workout already exists.',
+			// },
 		},
 	},
 	{

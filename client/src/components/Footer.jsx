@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import CreateNewModal from './CreateNewModal';
 
 import { Navbar, Nav, Container, Button, Modal } from 'react-bootstrap';
@@ -9,6 +11,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 const Footer = () => {
 	const [show, setShow] = useState(false);
+	const { profile } = useSelector((state) => state.appData);
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -28,7 +31,7 @@ const Footer = () => {
 							</Button>
 						</Nav.Item>
 					</LinkContainer>
-					<LinkContainer to='/train'>
+					<LinkContainer to={`/workouts/${profile.current.workout}`}>
 						<Nav.Item className='mx-3'>
 							<Button className='btn btn-block px-3'>
 								<FaDumbbell />
